@@ -27,3 +27,12 @@ func (w *WorkerPool) Wait() {
 		w.workers <- struct{}{}
 	}
 }
+
+// Run is convenience function for multi goroutine execution.
+func Run(n int, fn func()) *WorkerPool {
+	wk := New(n)
+	for i := 0; i < n; i++ {
+		wk.Go(fn)
+	}
+	return wk
+}
